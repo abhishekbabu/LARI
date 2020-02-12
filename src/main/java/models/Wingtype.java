@@ -1,4 +1,4 @@
-package src.main.java.datatypes;
+package src.main.java.models;
 
 public enum Wingtype {
 

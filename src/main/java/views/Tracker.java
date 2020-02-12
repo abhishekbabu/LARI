@@ -1,9 +1,8 @@
-package src.main.java.tracker;
-
-import mdlaf.*;
-import mdlaf.themes.*;
+package src.main.java.views;
 
 import javax.swing.*;
+
+import com.formdev.flatlaf.*;
 
 public class Tracker {
 
@@ -11,9 +10,8 @@ public class Tracker {
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialLiteTheme()));
-        }
-        catch (UnsupportedLookAndFeelException e) {
+            UIManager.setLookAndFeel(new FlatDarculaLaf());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         JFrame frame = new JFrame("Tracker");
