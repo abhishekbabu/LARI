@@ -21,9 +21,9 @@ public class Equipage {
     /**
      * Set of systems currently stored in the application
      */
-    private Set<AFSLSystem> fleet;
+    public Set<AFSLSystem> fleet;
 
-    private Set<Component> unconnected;
+    public Set<Component> unconnected;
 
     //endregion
 
@@ -408,9 +408,8 @@ public class Equipage {
 
     //endregion
 
-    public static void main(String[] args) {
-        Equipage e = new Equipage();
-
-    }
+    //public static void main(String[] args) {
+    //    Equipage e = new Equipage();
+    //}
 
 }
