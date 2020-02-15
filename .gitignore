@@ -15,6 +15,9 @@ out/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# DB-related files
+*.db-journal
+
 # Package Files #
 *.jar
 *.war
