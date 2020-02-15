@@ -1,6 +1,6 @@
 package src.main.java;
 
-import src.main.java.models.*;
+import src.main.java.datatypes.*;
 
 import java.sql.*;
 import java.time.LocalDate;

@@ -19,7 +19,6 @@ out/
 *.db-journal
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
