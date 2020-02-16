@@ -1,8 +1,7 @@
 package src.main.java.views;
 
-import com.formdev.flatlaf.*;
-
-import src.main.java.*;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
@@ -290,6 +289,8 @@ public class Tracker extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AddComponentWindow addNewComp = new AddComponentWindow(equipage);
                 addNewComp.setVisible(true);
+                addNewComp.getSerialNumberTextField().setForeground(new Color(187, 187, 187));
+                addNewComp.getLocationTextField().setForeground(new Color(187, 187, 187));
             }
         });
     }

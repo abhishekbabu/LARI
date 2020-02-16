@@ -62,6 +62,7 @@ public class AddSystemWindow extends JFrame {
             public void focusLost(FocusEvent focusEvent) {
                 if (nameTextField.getText().isEmpty()) {
                     nameTextField.setForeground(new Color(187, 187, 187));
+                    nameTextField.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
                     nameTextField.setText("System name");
                 }
             }
