@@ -138,7 +138,7 @@ public class Tracker extends JFrame {
 
         // set the title and startup size of app window
         setTitle("Laboratory Reconciliation and Information System");
-        setSize(1440,900);
+        setSize(1440, 900);
         setMinimumSize(new Dimension(800, 500));
     }
 
@@ -205,7 +205,7 @@ public class Tracker extends JFrame {
                 new String[] {"ID", "Name", "Description", "Serial Number", "Start Date", "Flight Time (hrs)",
                         "Location", "History", "Damaged", "Active", "System"}, 0
         ) {
-            Class[] types = new Class[] { String.class, String.class, String.class, String.class, String.class,
+            Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class,
                     double.class, String.class, String.class, String.class, boolean.class, String.class};
 
             @Override
@@ -282,6 +282,14 @@ public class Tracker extends JFrame {
                     EditSystemWindow editSys = new EditSystemWindow(equipage, sysName);
                     editSys.setVisible(true);
                 }
+            }
+        });
+
+        addComponentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddComponentWindow addNewComp = new AddComponentWindow(equipage);
+                addNewComp.setVisible(true);
             }
         });
     }
