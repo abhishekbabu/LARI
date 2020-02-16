@@ -184,7 +184,7 @@ public class Equipage {
             insertSystemCommand.setString(3, sys.getWingtype().toString());
             insertSystemCommand.setString(4, sys.getStartDate().toString());
             insertSystemCommand.executeUpdate();
-            //System.out.println("Successfully inserted system: " + sys.getName() + "...");
+            System.out.println("Successfully inserted system: " + sys.getName() + "...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
