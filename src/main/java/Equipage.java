@@ -72,7 +72,7 @@ public class Equipage {
             Connection conn = connect();
             Statement command = conn.createStatement();
             command.execute("PRAGMA foreign_keys=ON");
-            System.out.println("Successfully initialized database connection...");
+            //System.out.println("Successfully initialized database connection...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class Equipage {
             Statement clearDbCommand = conn.createStatement();
             clearDbCommand.execute("DROP TABLE IF EXISTS Systems");
             clearDbCommand.execute("DROP TABLE IF EXISTS Components");
-            System.out.println("Successfully cleared database...");
+            //System.out.println("Successfully cleared database...");
             conn.close();
             createTables();
         } catch (Exception e) {
@@ -129,7 +129,7 @@ public class Equipage {
             PreparedStatement createComponentsTable = conn.prepareStatement(sql2);
             createSystemsTable.execute();
             createComponentsTable.execute();
-            System.out.println("Successfully created tables...");
+            //System.out.println("Successfully created tables...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,7 +184,7 @@ public class Equipage {
             insertSystemCommand.setString(3, sys.getWingtype().toString());
             insertSystemCommand.setString(4, sys.getStartDate().toString());
             insertSystemCommand.executeUpdate();
-            System.out.println("Successfully inserted system: " + sys.getName() + "...");
+            //System.out.println("Successfully inserted system: " + sys.getName() + "...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,7 +214,7 @@ public class Equipage {
             insertComponentCommand.setBoolean(10, c.isActive());
             insertComponentCommand.setString(11, c.getSystem());
             insertComponentCommand.executeUpdate();
-            System.out.println("Successfully inserted component: " + c.getId() + "...");
+            //System.out.println("Successfully inserted component: " + c.getId() + "...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,9 +241,9 @@ public class Equipage {
                 Wingtype wingtype = Wingtype.valueOf(rs.getString("wing_type"));
                 LocalDate startDate = dateFromString(rs.getString("start_date"));
                 sys = new AFSLSystem(name, description, wingtype, startDate);
-                System.out.println("Successfully retrieved system: " + sysName + "...");
+                //System.out.println("Successfully retrieved system: " + sysName + "...");
             } else {
-                System.out.println("System: " + sysName + " not retrieved...");
+                //System.out.println("System: " + sysName + " not retrieved...");
             }
             conn.close();
         } catch (Exception e) {
@@ -280,9 +280,9 @@ public class Equipage {
                 String system = rs.getString("system");
                 c = new Component(id, name, description, serialNum, startDate, flightTime, location, history,
                         damaged, active, system);
-                System.out.println("Successfully retrieved component: " + cid + "...");
+                //System.out.println("Successfully retrieved component: " + cid + "...");
             } else {
-                System.out.println("Component: " + cid + " not retrieved...");
+                //System.out.println("Component: " + cid + " not retrieved...");
             }
             conn.close();
         } catch (Exception e) {
@@ -310,7 +310,7 @@ public class Equipage {
                 LocalDate startDate = dateFromString(rs.getString("start_date"));
                 systems.add(new AFSLSystem(name, description, wingtype, startDate));
             }
-            System.out.println("Retrieved all systems successfully...");
+            //System.out.println("Retrieved all systems successfully...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -349,7 +349,7 @@ public class Equipage {
                         flightTime, location, history, damaged, active, system);
                 components.add(c);
             }
-            System.out.println("Retrieved all components for system: " + sysName + " successfully...");
+            //System.out.println("Retrieved all components for system: " + sysName + " successfully...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -375,7 +375,7 @@ public class Equipage {
             PreparedStatement deleteSystemCommand = conn.prepareStatement(sql);
             deleteSystemCommand.setString(1, sysName);
             deleteSystemCommand.executeUpdate();
-            System.out.println("Deleted system: " + sysName + " successfully...");
+            //System.out.println("Deleted system: " + sysName + " successfully...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -399,7 +399,7 @@ public class Equipage {
             PreparedStatement deleteComponentCommand = conn.prepareStatement(sql);
             deleteComponentCommand.setString(1, cid);
             deleteComponentCommand.executeUpdate();
-            System.out.println("Deleted component: " + cid + " successfully...");
+            //System.out.println("Deleted component: " + cid + " successfully...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -407,9 +407,5 @@ public class Equipage {
     }
 
     //endregion
-
-    //public static void main(String[] args) {
-    //    Equipage e = new Equipage();
-    //}
 
 }

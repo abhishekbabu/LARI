@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * <b>Tracker</b> is the root window of LARI i.e. the startup window. It houses two tables containing the Systems and
@@ -115,6 +117,7 @@ public class Tracker extends JFrame {
         initializeFrame();
         initializeSystemsTable();
         initializeComponentsTable();
+        initializeButtons();
     }
 
     //endregion
@@ -257,6 +260,34 @@ public class Tracker extends JFrame {
         // set table header font to Helvetica Neue
         componentsTable.getTableHeader().setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
     }
+
+    private void initializeButtons() {
+        addSystemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                AddSystemWindow addNewSys = new AddSystemWindow(equipage);
+                addNewSys.setVisible(true);
+            }
+        });
+
+        editSystemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (systemsTable.getSelectionModel().isSelectionEmpty()) {
+                    System.out.println("No system selected");
+                } else {
+                    int row = systemsTable.getSelectedRow();
+                    String sysName = systemsTable.getValueAt(row, 0).toString();
+                    EditSystemWindow editSys = new EditSystemWindow(equipage, sysName);
+                    editSys.setVisible(true);
+                }
+            }
+        });
+    }
+
+    //endregion
+
+    //region Private Methods
 
     //endregion
 
