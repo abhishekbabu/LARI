@@ -137,7 +137,7 @@ public class Tracker extends JFrame {
 
         // set the title and startup size of app window
         setTitle("Laboratory Reconciliation and Information System");
-        setSize(1440, 900);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 500));
     }
 

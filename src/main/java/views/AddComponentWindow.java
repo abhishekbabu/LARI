@@ -3,16 +3,22 @@ package src.main.java.views;
 import com.toedter.calendar.JDateChooser;
 import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
+import src.main.java.datatypes.Component;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.time.ZoneId;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
 
 public class AddComponentWindow extends JFrame {
 
@@ -46,6 +52,7 @@ public class AddComponentWindow extends JFrame {
         this.equipage = equipage;
         initializeFrame();
         initializeInputComponents();
+        initializeButtons();
     }
 
     private void initializeFrame() {
@@ -58,13 +65,20 @@ public class AddComponentWindow extends JFrame {
 
     private void initializeInputComponents() {
         // set combo box to display systems from Equipage fleet
-        Set<String> fleetNames = new HashSet<>();
+        Set<String> fleetNames = new TreeSet<>();
+        fleetNames.add("--Unconnected--");
         Iterator<AFSLSystem> iter = equipage.fleet.iterator();
         while (iter.hasNext()) {
             fleetNames.add(iter.next().getName());
         }
         systemComboBox.setModel(new DefaultComboBoxModel(fleetNames.toArray()));
-        systemComboBox.setSelectedIndex(-1);
+        systemComboBox.setSelectedItem("--Unconnected--");
+
+        // flight time
+        NumberFormat flightTimeFormat = NumberFormat.getNumberInstance();
+        flightTimeFormattedTextField = new JFormattedTextField(flightTimeFormat);
+        flightTimeFormattedTextField.setValue(0.0);
+        flightTimeFormattedTextField.setColumns(3);
 
         // set prompt text in name text field to say "Component name"
         nameTextField.addFocusListener(new FocusListener() {
@@ -185,6 +199,32 @@ public class AddComponentWindow extends JFrame {
                 if (flightTimeFormattedTextField.getText().isEmpty()) {
                     flightTimeFormattedTextField.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
                     flightTimeFormattedTextField.setText("0.00");
+                }
+            }
+        });
+    }
+
+    private void initializeButtons() {
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (nameTextField.getText().isEmpty() || nameTextField.getText().equals("System name")) {
+
+                } else {
+                    String compName = nameTextField.getText();
+                    String compDescription = descriptionTextArea.getText();
+                    String compSerialNumber = serialNumberTextField.getText();
+                    LocalDate compStartDate = startDateChooser.getDate().toInstant().
+                            atZone(ZoneId.systemDefault()).toLocalDate();
+                    double compFlightTime = Double.valueOf(flightTimeFormattedTextField.getText());
+                    String compLocation = locationTextField.getText();
+                    String compHistory = historyTextArea.getText();
+                    boolean compDamaged = damagedCheckBox.isSelected();
+                    boolean compActive = activeCheckBox.isSelected();
+                    String compSystem = systemComboBox.getSelectedItem().toString();
+                    equipage.insertComponent(new Component(UUID.randomUUID().toString(), compName, compDescription,
+                            compSerialNumber, compStartDate, compFlightTime, compLocation,
+                            compHistory, compDamaged, compActive, compSystem));
                 }
             }
         });
