@@ -95,7 +95,7 @@ public class AddSystemWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (nameTextField.getText().isEmpty() || nameTextField.getText().equals("System name")) {
-
+                    JOptionPane.showMessageDialog(null, "Name cannot be empty.");
                 } else {
                     String sysName = nameTextField.getText();
                     String sysDescription = descriptionTextArea.getText();
@@ -103,6 +103,18 @@ public class AddSystemWindow extends JFrame {
                     LocalDate sysStartDate = startDateChooser.getDate().toInstant().
                             atZone(ZoneId.systemDefault()).toLocalDate();
                     equipage.insertSystem(new AFSLSystem(sysName, sysDescription, sysWingtype, sysStartDate));
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to close the window?\nYour data will be lost.");
+                if (response == JOptionPane.YES_OPTION) {
+                    setVisible(false);
+                    dispose();
                 }
             }
         });

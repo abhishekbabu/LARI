@@ -12,13 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.Date;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 
 public class AddComponentWindow extends JFrame {
 
@@ -75,10 +74,7 @@ public class AddComponentWindow extends JFrame {
         systemComboBox.setSelectedItem("--Unconnected--");
 
         // flight time
-        NumberFormat flightTimeFormat = NumberFormat.getNumberInstance();
-        flightTimeFormattedTextField = new JFormattedTextField(flightTimeFormat);
-        flightTimeFormattedTextField.setValue(0.0);
-        flightTimeFormattedTextField.setColumns(3);
+        flightTimeFormattedTextField = new JFormattedTextField(DecimalFormat.getInstance());
 
         // set prompt text in name text field to say "Component name"
         nameTextField.addFocusListener(new FocusListener() {
@@ -208,23 +204,38 @@ public class AddComponentWindow extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (nameTextField.getText().isEmpty() || nameTextField.getText().equals("System name")) {
-
+                System.out.println(flightTimeFormattedTextField.getText());
+                if (nameTextField.getText().isEmpty() || nameTextField.getText().equals("Component name")) {
+                    JOptionPane.showMessageDialog(null, "Name cannot be empty.");
+                } else if (Double.valueOf(flightTimeFormattedTextField.getText()) < 0) { // TODO: Make flight time work
+                    JOptionPane.showMessageDialog(null, "Flight time cannot be negative.");
                 } else {
                     String compName = nameTextField.getText();
                     String compDescription = descriptionTextArea.getText();
                     String compSerialNumber = serialNumberTextField.getText();
                     LocalDate compStartDate = startDateChooser.getDate().toInstant().
                             atZone(ZoneId.systemDefault()).toLocalDate();
-                    double compFlightTime = Double.valueOf(flightTimeFormattedTextField.getText());
+                    double compFlightTime = Double.parseDouble(flightTimeFormattedTextField.getText()); // TODO: Make flight time work
                     String compLocation = locationTextField.getText();
                     String compHistory = historyTextArea.getText();
                     boolean compDamaged = damagedCheckBox.isSelected();
                     boolean compActive = activeCheckBox.isSelected();
                     String compSystem = systemComboBox.getSelectedItem().toString();
-                    equipage.insertComponent(new Component(UUID.randomUUID().toString(), compName, compDescription,
+                    equipage.insertComponent(new Component(compName, compDescription,
                             compSerialNumber, compStartDate, compFlightTime, compLocation,
                             compHistory, compDamaged, compActive, compSystem));
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to close the window?\nYour data will be lost.");
+                if (response == JOptionPane.YES_OPTION) {
+                    setVisible(false);
+                    dispose();
                 }
             }
         });
