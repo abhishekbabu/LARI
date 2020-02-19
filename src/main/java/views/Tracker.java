@@ -205,7 +205,7 @@ public class Tracker extends JFrame {
                         "Location", "History", "Damaged", "Active", "System"}, 0
         ) {
             Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class,
-                    double.class, String.class, String.class, String.class, String.class, String.class};
+                    double.class, String.class, String.class, String.class, boolean.class, String.class};
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -250,7 +250,6 @@ public class Tracker extends JFrame {
                 if (!b) {
                     c.setBackground(i % 2 == 0 ? Color.WHITE : new Color(238, 232, 170));
                 }
-
                 return c;
             }
         });

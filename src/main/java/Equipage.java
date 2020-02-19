@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Equipage {
 
-    private static final String url = "jdbc:sqlite:./data/lari.db";
+    private static final String URL = "jdbc:sqlite:./data/lari.db";
 
     //region Fields
 
@@ -54,7 +54,7 @@ public class Equipage {
     private Connection connect() {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(URL);
             //System.out.println("\nConnected to SQLite database successfully...");
         } catch (Exception e) {
             e.printStackTrace();
