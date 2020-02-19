@@ -1,8 +1,7 @@
 package src.main.java.views;
 
-import com.formdev.flatlaf.*;
-
-import src.main.java.*;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
@@ -138,7 +137,7 @@ public class Tracker extends JFrame {
 
         // set the title and startup size of app window
         setTitle("Laboratory Reconciliation and Information System");
-        setSize(1440,900);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 500));
     }
 
@@ -205,8 +204,8 @@ public class Tracker extends JFrame {
                 new String[] {"ID", "Name", "Description", "Serial Number", "Start Date", "Flight Time (hrs)",
                         "Location", "History", "Damaged", "Active", "System"}, 0
         ) {
-            Class[] types = new Class[] { String.class, String.class, String.class, String.class, String.class,
-                    double.class, String.class, String.class, String.class, boolean.class, String.class};
+            Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class,
+                    double.class, String.class, String.class, String.class, String.class, String.class};
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -251,6 +250,7 @@ public class Tracker extends JFrame {
                 if (!b) {
                     c.setBackground(i % 2 == 0 ? Color.WHITE : new Color(238, 232, 170));
                 }
+
                 return c;
             }
         });
@@ -282,6 +282,16 @@ public class Tracker extends JFrame {
                     EditSystemWindow editSys = new EditSystemWindow(equipage, sysName);
                     editSys.setVisible(true);
                 }
+            }
+        });
+
+        addComponentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddComponentWindow addNewComp = new AddComponentWindow(equipage);
+                addNewComp.setVisible(true);
+                addNewComp.getSerialNumberTextField().setForeground(new Color(187, 187, 187));
+                addNewComp.getLocationTextField().setForeground(new Color(187, 187, 187));
             }
         });
     }
