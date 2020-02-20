@@ -32,12 +32,17 @@ public class Equipage {
     /**
      * Constructs an equipage with the data from the db
      *
+     * @param clear if true, the db is cleared before loading the app (only true during
+     *              testing/debugging as of now)
      * @spec.effects Initializes the connection to the database, creates tables in the
      * db if they need to be created, and read the db to create a local storage of the
      * data
      */
-    public Equipage() {
+    public Equipage(boolean clear) {
         initializeDb();
+        if (clear) {
+            clearDb();
+        }
         createTables();
         initializeFleet();
     }
@@ -74,25 +79,6 @@ public class Equipage {
             command.execute("PRAGMA foreign_keys=ON");
             //System.out.println("Successfully initialized database connection...");
             conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * FOR TESTING/DEBUGGING PURPOSES ONLY: clears the db
-     *
-     * @spec.effects clears the db and recreates empty tables in it
-     */
-    private void clearDb() {
-        try {
-            Connection conn = connect();
-            Statement clearDbCommand = conn.createStatement();
-            clearDbCommand.execute("DROP TABLE IF EXISTS Systems");
-            clearDbCommand.execute("DROP TABLE IF EXISTS Components");
-            //System.out.println("Successfully cleared database...");
-            conn.close();
-            createTables();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,6 +136,25 @@ public class Equipage {
     }
 
     /**
+     * FOR TESTING/DEBUGGING PURPOSES ONLY: clears the db
+     *
+     * @spec.effects clears the db and recreates empty tables in it
+     */
+    private void clearDb() {
+        try {
+            Connection conn = connect();
+            Statement clearDbCommand = conn.createStatement();
+            clearDbCommand.execute("DROP TABLE IF EXISTS Systems");
+            clearDbCommand.execute("DROP TABLE IF EXISTS Components");
+            //System.out.println("Successfully cleared database...");
+            conn.close();
+            createTables();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Creates and returns a LocalDate object equivalent to the given date
      * string
      *
@@ -184,7 +189,8 @@ public class Equipage {
             insertSystemCommand.setString(3, sys.getWingtype().toString());
             insertSystemCommand.setString(4, sys.getStartDate().toString());
             insertSystemCommand.executeUpdate();
-            System.out.println("Successfully inserted system: " + sys.getName() + "...");
+            fleet.add(sys);
+            //System.out.println("Successfully inserted system: " + sys.getName() + "...");
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,6 +220,15 @@ public class Equipage {
             insertComponentCommand.setBoolean(10, c.isActive());
             insertComponentCommand.setString(11, c.getSystem());
             insertComponentCommand.executeUpdate();
+            if (c.getSystem().isEmpty()) {
+                unconnected.add(c);
+            } else {
+                for (AFSLSystem sys : fleet) {
+                    if (sys.getName().equals(c.getSystem())) {
+                        sys.addComponent(c);
+                    }
+                }
+            }
             //System.out.println("Successfully inserted component: " + c.getId() + "...");
             conn.close();
         } catch (Exception e) {

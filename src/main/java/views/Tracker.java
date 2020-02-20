@@ -5,13 +5,10 @@ import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.*;
 
 /**
  * <b>Tracker</b> is the root window of LARI i.e. the startup window. It houses two tables containing the Systems and
@@ -20,6 +17,11 @@ import java.awt.event.ActionListener;
 public class Tracker extends JFrame {
 
     //region Fields
+
+    /**
+     * Reference to this instance of the tracker
+     */
+    private Tracker tracker;
 
     /**
      * The root JPanel that holds all items in the tracker
@@ -112,6 +114,7 @@ public class Tracker extends JFrame {
      * @spec.effects constructs a tracker window with the data in the given equipage
      */
     public Tracker(Equipage equipage) {
+        this.tracker = this;
         this.equipage = equipage;
         initializeFrame();
         initializeSystemsTable();
@@ -121,7 +124,7 @@ public class Tracker extends JFrame {
 
     //endregion
 
-    //region Initialization
+    //region Private Methods
 
     /**
      * Initializes the tracker frame
@@ -136,7 +139,7 @@ public class Tracker extends JFrame {
         add(rootPanel);
 
         // set the title and startup size of app window
-        setTitle("Laboratory Reconciliation and Information System");
+        setTitle("Laboratory Reconciliation and Information System (LARI)");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 500));
     }
@@ -147,7 +150,7 @@ public class Tracker extends JFrame {
      * @spec.effects makes the systems table non-editable and populates it with the system data from the equipage;
      * also sets look and feel of the table
      */
-    private void initializeSystemsTable() {
+    public void initializeSystemsTable() {
 
         // add column headers and make table non editable by user
         DefaultTableModel systemsTableModel = new DefaultTableModel(
@@ -197,7 +200,7 @@ public class Tracker extends JFrame {
      * @spec.effects makes the components table non-editable and populates it with the component data from the
      * equipage; also sets look and feel of the table
      */
-    private void initializeComponentsTable() {
+    public void initializeComponentsTable() {
 
         // add column headers and make table non editable by user
         DefaultTableModel componentsTableModel = new DefaultTableModel(
@@ -261,11 +264,16 @@ public class Tracker extends JFrame {
         componentsTable.getTableHeader().setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
     }
 
+    /**
+     * Initializes the buttons
+     *
+     * @spec.effects sets action listeners for every button on the tracker
+     */
     private void initializeButtons() {
         addSystemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddSystemWindow addNewSys = new AddSystemWindow(equipage);
+                AddSystemWindow addNewSys = new AddSystemWindow(equipage, tracker);
                 addNewSys.setVisible(true);
             }
         });
@@ -287,17 +295,11 @@ public class Tracker extends JFrame {
         addComponentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddComponentWindow addNewComp = new AddComponentWindow(equipage);
+                AddComponentWindow addNewComp = new AddComponentWindow(equipage, tracker);
                 addNewComp.setVisible(true);
-                addNewComp.getSerialNumberTextField().setForeground(new Color(187, 187, 187));
-                addNewComp.getLocationTextField().setForeground(new Color(187, 187, 187));
             }
         });
     }
-
-    //endregion
-
-    //region Private Methods
 
     //endregion
 
@@ -307,9 +309,10 @@ public class Tracker extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Tracker tracker = new Tracker(new Equipage());
+        Equipage equipage = new Equipage(false);
+        Tracker tracker = new Tracker(equipage);
         tracker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tracker.setVisible(true);
     }
+
 }

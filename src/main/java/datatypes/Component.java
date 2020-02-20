@@ -1,8 +1,7 @@
 package src.main.java.datatypes;
 
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <b>Component</b> represents a component at AFSL that the application keeps

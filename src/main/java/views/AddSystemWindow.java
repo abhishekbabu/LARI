@@ -5,38 +5,114 @@ import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import javax.swing.*;
 
+/**
+ * <b>AddSystemWindow</b> is the frame that allows the user to add new systems to be stored
+ * in the app.
+ */
 public class AddSystemWindow extends JFrame {
 
+    //region Fields
+
+    /**
+     * The main tracker window that opened this add system window
+     */
+    private Tracker tracker;
+
+    /**
+     * The equipage whose data is coupled with this tracker
+     */
     private Equipage equipage;
+
+    /**
+     * The root JPanel that holds all the components
+     */
     private JPanel rootPanel;
+
+    /**
+     * Text area for description
+     */
     private JTextArea descriptionTextArea;
+
+    /**
+     * Text field for name
+     */
     private JTextField nameTextField;
+
+    /**
+     * Combo box for wing type
+     */
     private JComboBox wingtypeComboBox;
+
+    /**
+     * Date chooser for start date
+     */
     private JDateChooser startDateChooser;
+
+    /**
+     * The name label
+     */
     private JLabel nameLabel;
+
+    /**
+     * The description label
+     */
     private JLabel descriptionLabel;
+
+    /**
+     * The wing type label
+     */
     private JLabel wingtypeLabel;
+
+    /**
+     * The start date label
+     */
     private JLabel startDateLabel;
+
+    /**
+     * The add system button
+     */
     private JButton addButton;
+
+    /**
+     * The cancel button
+     */
     private JButton cancelButton;
 
-    public AddSystemWindow(Equipage equipage) {
+    //endregion
+
+    //region Constructors
+
+    /**
+     * Constructs an add system window
+     *
+     * @param equipage the equipage whose data is used with this tracker
+     * @spec.effects constructs a new add system window with default settings
+     */
+    public AddSystemWindow(Equipage equipage, Tracker tracker) {
+        this.tracker = tracker;
         this.equipage = equipage;
         initializeFrame();
         initializeInputComponents();
         initializeButtons();
     }
 
+    //endregion
+
+    //region Private Methods
+
+    /**
+     * Initializes the add system frame
+     *
+     * @spec.effects sets the content of the frame to be the root panel and gives the frame
+     * a title and an unchangeable size
+     */
     private void initializeFrame() {
         add(rootPanel);
         setTitle("Add New System");
@@ -44,6 +120,12 @@ public class AddSystemWindow extends JFrame {
         setResizable(false);
     }
 
+    /**
+     * Initializes the components that take user input (text fields/areas, combo boxes)
+     *
+     * @spec.effects sets tooltip text on text fields and makes wingtype combo box display
+     * wingtypes from enum
+     */
     private void initializeInputComponents() {
         // set combo box to display wingtypes from Wingtype enum
         wingtypeComboBox.setModel(new DefaultComboBoxModel(Wingtype.values()));
@@ -90,6 +172,11 @@ public class AddSystemWindow extends JFrame {
         descriptionTextArea.setBorder(new JTextField().getBorder());
     }
 
+    /**
+     * Initializes the buttons on the frame
+     *
+     * @spec.effects adds action listeners to each button to add system and cancel
+     */
     private void initializeButtons() {
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -102,7 +189,16 @@ public class AddSystemWindow extends JFrame {
                     Wingtype sysWingtype = Wingtype.valueOf(wingtypeComboBox.getSelectedItem().toString());
                     LocalDate sysStartDate = startDateChooser.getDate().toInstant().
                             atZone(ZoneId.systemDefault()).toLocalDate();
-                    equipage.insertSystem(new AFSLSystem(sysName, sysDescription, sysWingtype, sysStartDate));
+                    AFSLSystem newSys = new AFSLSystem(sysName, sysDescription, sysWingtype, sysStartDate);
+                    if (equipage.fleet.contains(newSys)) {
+                        JOptionPane.showMessageDialog(null, "System with the given name " +
+                                "already exists.");
+                    } else {
+                        equipage.insertSystem(newSys);
+                        tracker.initializeSystemsTable();
+                        setVisible(false);
+                        dispose();
+                    }
                 }
             }
         });
@@ -130,4 +226,7 @@ public class AddSystemWindow extends JFrame {
         startDateChooser.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
         startDateChooser.setSize(100, -1);
     }
+
+    //endregion
+
 }

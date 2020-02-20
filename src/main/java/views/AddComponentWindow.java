@@ -6,54 +6,182 @@ import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Component;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
+/**
+ * <b>AddComponentWindow</b> is the frame that allows the user to add new components to be stored
+ * in the app.
+ */
 public class AddComponentWindow extends JFrame {
 
+    //region Fields
+
+    /**
+     * The main tracker window that opened this add component window
+     */
+    private Tracker tracker;
+
+    /**
+     * The equipage whose data is coupled with this tracker
+     */
     private Equipage equipage;
+
+    /**
+     * The root JPanel that holds all the components
+     */
     private JPanel rootPanel;
+
+    /**
+     * The system label
+     */
     private JLabel systemLabel;
+
+    /**
+     * The damaged label
+     */
     private JLabel damagedLabel;
+
+    /**
+     * The history label
+     */
     private JLabel historyLabel;
+
+    /**
+     * The location label
+     */
     private JLabel locationLabel;
+
+    /**
+     * Combo box for system
+     */
     private JComboBox systemComboBox;
+
+    /**
+     * The start date label
+     */
     private JLabel startDateLabel;
+
+    /**
+     * The serial number label
+     */
     private JLabel serialNumberLabel;
+
+    /**
+     * The description label
+     */
     private JLabel descriptionLabel;
+
+    /**
+     * The name label
+     */
     private JLabel nameLabel;
+
+    /**
+     * Text field for name
+     */
     private JTextField nameTextField;
+
+    /**
+     * Text area for description
+     */
     private JTextArea descriptionTextArea;
+
+    /**
+     * Text field for serial number
+     */
     private JTextField serialNumberTextField;
+
+    /**
+     * Text field for location
+     */
     private JTextField locationTextField;
+
+    /**
+     * Text field for history
+     */
     private JTextArea historyTextArea;
+
+    /**
+     * Check box for whether the component is damaged
+     */
     private JCheckBox damagedCheckBox;
+
+    /**
+     * The active label
+     */
     private JLabel activeLabel;
+
+    /**
+     * Check box for whether the component is active
+     */
     private JCheckBox activeCheckBox;
+
+    /**
+     * Date chooser for start date
+     */
     private JDateChooser startDateChooser;
+
+    /**
+     * The flight time label
+     */
     private JLabel flightTimeLabel;
+
+    /**
+     * Formatted text field for flight time
+     */
     private JFormattedTextField flightTimeFormattedTextField;
+
+    /**
+     * The cancel button
+     */
     private JButton cancelButton;
+
+    /**
+     * The add component button
+     */
     private JButton addButton;
+
+    /**
+     * The hours label
+     */
     private JLabel hoursLabel;
 
-    public AddComponentWindow(Equipage equipage) {
+    //endregion
+
+    //region Constructors
+
+    /**
+     * Constructs an add component window
+     *
+     * @param equipage the equipage whose data is used with this tracker
+     * @spec.effects constructs a new add component window with default settings
+     */
+    public AddComponentWindow(Equipage equipage, Tracker tracker) {
+        this.tracker = tracker;
         this.equipage = equipage;
         initializeFrame();
         initializeInputComponents();
         initializeButtons();
     }
 
+    //endregion
+
+    //region Private Methods
+
+    /**
+     * Initializes the add component frame
+     *
+     * @spec.effects sets the content of the frame to be the root panel and gives the frame
+     * a title and an unchangeable size
+     */
     private void initializeFrame() {
         add(rootPanel);
         setTitle("Add New Component");
@@ -62,7 +190,17 @@ public class AddComponentWindow extends JFrame {
     }
 
 
+    /**
+     * Initializes the components that take user input (text fields/areas, combo boxes)
+     *
+     * @spec.effects sets tooltip text on text fields and makes system combo box display systems
+     * from equipage
+     */
     private void initializeInputComponents() {
+
+        serialNumberTextField.setForeground(new Color(187, 187, 187));
+        locationTextField.setForeground(new Color(187, 187, 187));
+
         // set combo box to display systems from Equipage fleet
         Set<String> fleetNames = new TreeSet<>();
         fleetNames.add("--Unconnected--");
@@ -73,8 +211,11 @@ public class AddComponentWindow extends JFrame {
         systemComboBox.setModel(new DefaultComboBoxModel(fleetNames.toArray()));
         systemComboBox.setSelectedItem("--Unconnected--");
 
-        // flight time
-        flightTimeFormattedTextField = new JFormattedTextField(DecimalFormat.getInstance());
+        // set flight time formatted text field to only take numbers
+        DecimalFormat df = new DecimalFormat();
+        NumberFormatter dnff = new NumberFormatter(df);
+        flightTimeFormattedTextField.setFormatterFactory(new DefaultFormatterFactory(dnff));
+        flightTimeFormattedTextField.setValue(0);
 
         // set prompt text in name text field to say "Component name"
         nameTextField.addFocusListener(new FocusListener() {
@@ -180,11 +321,11 @@ public class AddComponentWindow extends JFrame {
             }
         });
 
-        // set prompt text in flight time text field to say "0.00"
+        // set prompt text in flight time text field to say "0"
         flightTimeFormattedTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
-                if (flightTimeFormattedTextField.getText().equals("0.00")) {
+                if (flightTimeFormattedTextField.getValue().equals(0)) {
                     flightTimeFormattedTextField.setText("");
                     flightTimeFormattedTextField.setForeground(Color.BLACK);
                 }
@@ -194,36 +335,74 @@ public class AddComponentWindow extends JFrame {
             public void focusLost(FocusEvent focusEvent) {
                 if (flightTimeFormattedTextField.getText().isEmpty()) {
                     flightTimeFormattedTextField.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
-                    flightTimeFormattedTextField.setText("0.00");
+                    flightTimeFormattedTextField.setValue(0);
                 }
             }
         });
     }
 
+    /**
+     * Initializes the buttons on the frame
+     *
+     * @spec.effects adds action listeners to each button to add component and cancel
+     */
     private void initializeButtons() {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println(flightTimeFormattedTextField.getText());
+                Class flightTimeClass = flightTimeFormattedTextField.getValue().getClass();
                 if (nameTextField.getText().isEmpty() || nameTextField.getText().equals("Component name")) {
                     JOptionPane.showMessageDialog(null, "Name cannot be empty.");
-                } else if (Double.valueOf(flightTimeFormattedTextField.getText()) < 0) { // TODO: Make flight time work
-                    JOptionPane.showMessageDialog(null, "Flight time cannot be negative.");
+                } else if (flightTimeFormattedTextField.getValue() == null) {
+                    JOptionPane.showMessageDialog(null, "Flight time format is invalid.\n" +
+                            "Please enter a number.");
+                } else if (flightTimeClass.equals(Integer.class) && (Integer) flightTimeFormattedTextField.getValue() < 0) {
+                    JOptionPane.showMessageDialog(null, "Flight time cannot be less than 0.");
+                } else if (flightTimeClass.equals(Double.class) && (Double) flightTimeFormattedTextField.getValue() < 0) {
+                    JOptionPane.showMessageDialog(null, "Flight time cannot be less than 0.");
+                } else if (flightTimeClass.equals(Long.class) && (Long) flightTimeFormattedTextField.getValue() < 0) {
+                    JOptionPane.showMessageDialog(null, "Flight time cannot be less than 0.");
                 } else {
                     String compName = nameTextField.getText();
                     String compDescription = descriptionTextArea.getText();
+                    if (compDescription.equals("Component description")) {
+                        compDescription = "";
+                    }
                     String compSerialNumber = serialNumberTextField.getText();
+                    if (compSerialNumber.equals("Component serial number")) {
+                        compSerialNumber = "";
+                    }
                     LocalDate compStartDate = startDateChooser.getDate().toInstant().
                             atZone(ZoneId.systemDefault()).toLocalDate();
-                    double compFlightTime = Double.parseDouble(flightTimeFormattedTextField.getText()); // TODO: Make flight time work
+                    double compFlightTime;
+                    if (flightTimeClass.equals(Integer.class)) {
+                        compFlightTime = (Integer) flightTimeFormattedTextField.getValue();
+                    } else if (flightTimeClass.equals(Double.class)) {
+                        compFlightTime = (Double) flightTimeFormattedTextField.getValue();
+                    } else {
+                        compFlightTime = (Long) flightTimeFormattedTextField.getValue();
+                    }
                     String compLocation = locationTextField.getText();
+                    if (compLocation.equals("Component location")) {
+                        compLocation = "";
+                    }
                     String compHistory = historyTextArea.getText();
+                    if (compHistory.equals("Component history")) {
+                        compHistory.equals("");
+                    }
                     boolean compDamaged = damagedCheckBox.isSelected();
                     boolean compActive = activeCheckBox.isSelected();
                     String compSystem = systemComboBox.getSelectedItem().toString();
+                    if (compSystem.equals("--Unconnected--")) {
+                        compSystem = "";
+                    }
                     equipage.insertComponent(new Component(compName, compDescription,
                             compSerialNumber, compStartDate, compFlightTime, compLocation,
                             compHistory, compDamaged, compActive, compSystem));
+                    tracker.initializeComponentsTable();
+                    setVisible(false);
+                    dispose();
                 }
             }
         });
@@ -241,16 +420,6 @@ public class AddComponentWindow extends JFrame {
         });
     }
 
-    //region Getters
-    public JTextField getSerialNumberTextField() {
-        return serialNumberTextField;
-    }
-
-    public JTextField getLocationTextField() {
-        return locationTextField;
-    }
-    //endregion
-
     /**
      * DO NOT REMOVE: Auto-generated method to add JDateChooser to frame
      */
@@ -261,4 +430,7 @@ public class AddComponentWindow extends JFrame {
         startDateChooser.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
         startDateChooser.setSize(100, -1);
     }
+
+    //endregion
+
 }
