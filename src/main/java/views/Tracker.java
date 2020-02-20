@@ -139,10 +139,77 @@ public class Tracker extends JFrame {
         add(rootPanel);
 
         // set the title and startup size of app window
-        setTitle("Laboratory Reconciliation and Information System (LARI)");
+        setTitle("LARI - Laboratory Reconciliation and Information System");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 500));
     }
+
+    /**
+     * Initializes the buttons
+     *
+     * @spec.effects sets action listeners for every button on the tracker
+     */
+    private void initializeButtons() {
+        initializeAddSystemButton();
+        initializeEditSystemButton();
+        initializeAddComponentButton();
+    }
+
+    /**
+     * Initializes add system button
+     *
+     * @spec.effects sets action listener for add system button to open new add system window
+     */
+    private void initializeAddSystemButton() {
+        addSystemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                AddSystemWindow addNewSys = new AddSystemWindow(equipage, tracker);
+                addNewSys.setVisible(true);
+            }
+        });
+    }
+
+    /**
+     * Initializes edit system button
+     *
+     * @spec.effects sets action listener for edit system button to open new edit system window
+     * with settings from the system that is being edited
+     */
+    private void initializeEditSystemButton() {
+        editSystemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (systemsTable.getSelectionModel().isSelectionEmpty()) {
+                    System.out.println("No system selected");
+                } else {
+                    int row = systemsTable.getSelectedRow();
+                    String sysName = systemsTable.getValueAt(row, 0).toString();
+                    EditSystemWindow editSys = new EditSystemWindow(equipage, sysName);
+                    editSys.setVisible(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Initializes add component button
+     *
+     * @spec.effects sets action listener for add component button to open new add component window
+     */
+    private void initializeAddComponentButton() {
+        addComponentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddComponentWindow addNewComp = new AddComponentWindow(equipage, tracker);
+                addNewComp.setVisible(true);
+            }
+        });
+    }
+
+    //endregion
+
+    //region Public Methods
 
     /**
      * Initializes data in the systems table
@@ -264,43 +331,6 @@ public class Tracker extends JFrame {
         componentsTable.getTableHeader().setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
     }
 
-    /**
-     * Initializes the buttons
-     *
-     * @spec.effects sets action listeners for every button on the tracker
-     */
-    private void initializeButtons() {
-        addSystemButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                AddSystemWindow addNewSys = new AddSystemWindow(equipage, tracker);
-                addNewSys.setVisible(true);
-            }
-        });
-
-        editSystemButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (systemsTable.getSelectionModel().isSelectionEmpty()) {
-                    System.out.println("No system selected");
-                } else {
-                    int row = systemsTable.getSelectedRow();
-                    String sysName = systemsTable.getValueAt(row, 0).toString();
-                    EditSystemWindow editSys = new EditSystemWindow(equipage, sysName);
-                    editSys.setVisible(true);
-                }
-            }
-        });
-
-        addComponentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AddComponentWindow addNewComp = new AddComponentWindow(equipage, tracker);
-                addNewComp.setVisible(true);
-            }
-        });
-    }
-
     //endregion
 
     public static void main(String[] args) {
@@ -309,7 +339,7 @@ public class Tracker extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Equipage equipage = new Equipage(false);
+        Equipage equipage = new Equipage(false); // flag indicates whether or not to erase database
         Tracker tracker = new Tracker(equipage);
         tracker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tracker.setVisible(true);

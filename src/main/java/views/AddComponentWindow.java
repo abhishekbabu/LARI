@@ -193,95 +193,26 @@ public class AddComponentWindow extends JFrame {
     /**
      * Initializes the components that take user input (text fields/areas, combo boxes)
      *
-     * @spec.effects sets tooltip text on text fields and makes system combo box display systems
-     * from equipage
+     * @spec.effects sets default values and prompt text for appropriate input components
      */
     private void initializeInputComponents() {
+        initializeSerialNumberTextField();
+        initializeLocationTextField();
+        initializeSystemComboBox();
+        initializeFlightTimeFormattedTextField();
+        initializeNameTextField();
+        initializeDescriptionTextArea();
+        initializeHistoryTextArea();
+    }
 
+    /**
+     * Initializes the serial number text field
+     *
+     * @spec.effects sets the prompt text in the field to say "Component serial number" and be greyed out;
+     * also clears the field and makes the field's text change color to black when the user clicks it
+     */
+    private void initializeSerialNumberTextField() {
         serialNumberTextField.setForeground(new Color(187, 187, 187));
-        locationTextField.setForeground(new Color(187, 187, 187));
-
-        // set combo box to display systems from Equipage fleet
-        Set<String> fleetNames = new TreeSet<>();
-        fleetNames.add("--Unconnected--");
-        Iterator<AFSLSystem> iter = equipage.fleet.iterator();
-        while (iter.hasNext()) {
-            fleetNames.add(iter.next().getName());
-        }
-        systemComboBox.setModel(new DefaultComboBoxModel(fleetNames.toArray()));
-        systemComboBox.setSelectedItem("--Unconnected--");
-
-        // set flight time formatted text field to only take numbers
-        DecimalFormat df = new DecimalFormat();
-        NumberFormatter dnff = new NumberFormatter(df);
-        flightTimeFormattedTextField.setFormatterFactory(new DefaultFormatterFactory(dnff));
-        flightTimeFormattedTextField.setValue(0);
-
-        // set prompt text in name text field to say "Component name"
-        nameTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
-                if (nameTextField.getText().equals("Component name")) {
-                    nameTextField.setText("");
-                    nameTextField.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                if (nameTextField.getText().isEmpty()) {
-                    nameTextField.setForeground(new Color(187, 187, 187));
-                    nameTextField.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
-                    nameTextField.setText("Component name");
-                }
-            }
-        });
-
-        // set prompt text in description text area to say "Component description" and set the border of the text area
-        // to look like the border of a text field
-        descriptionTextArea.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
-                if (descriptionTextArea.getText().equals("Component description")) {
-                    descriptionTextArea.setText("");
-                    descriptionTextArea.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                if (descriptionTextArea.getText().isEmpty()) {
-                    descriptionTextArea.setForeground(new Color(187, 187, 187));
-                    descriptionTextArea.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
-                    descriptionTextArea.setText("Component description");
-                }
-            }
-        });
-        descriptionTextArea.setBorder(new JTextField().getBorder());
-
-        // set prompt text in history text area to say "Component history" and set the border of the text area
-        // to look like the border of a text field
-        historyTextArea.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
-                if (historyTextArea.getText().equals("Component history")) {
-                    historyTextArea.setText("");
-                    historyTextArea.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                if (historyTextArea.getText().isEmpty()) {
-                    historyTextArea.setForeground(new Color(187, 187, 187));
-                    historyTextArea.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
-                    historyTextArea.setText("Component history");
-                }
-            }
-        });
-        historyTextArea.setBorder(new JTextField().getBorder());
-
-        // set prompt text in serial number text field to say "Component serial number"
         serialNumberTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -300,8 +231,16 @@ public class AddComponentWindow extends JFrame {
                 }
             }
         });
+    }
 
-        // set prompt text in location text field to say "Component location"
+    /**
+     * Initializes the location text field
+     *
+     * @spec.effects sets the prompt text in the field to say "Component location" and be greyed out;
+     * also clears the field and makes the field's text change color to black when the user clicks it
+     */
+    private void initializeLocationTextField() {
+        locationTextField.setForeground(new Color(187, 187, 187));
         locationTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -320,8 +259,37 @@ public class AddComponentWindow extends JFrame {
                 }
             }
         });
+    }
 
-        // set prompt text in flight time text field to say "0"
+    /**
+     * Initializes the system combo box
+     *
+     * @spec.effects sets the combo box to display all available systems and an option for a component
+     * to not be connected to any system
+     */
+    private void initializeSystemComboBox() {
+        Set<String> fleetNames = new TreeSet<>();
+        fleetNames.add("--Unconnected--");
+        Iterator<AFSLSystem> iter = equipage.fleet.iterator();
+        while (iter.hasNext()) {
+            fleetNames.add(iter.next().getName());
+        }
+        systemComboBox.setModel(new DefaultComboBoxModel(fleetNames.toArray()));
+        systemComboBox.setSelectedItem("--Unconnected--");
+    }
+
+    /**
+     * Initializes the flight time formatted text field
+     *
+     * @spec.effects sets the prompt text in the field to say "0" and be greyed out; also clears the
+     * field and makes the field's text change color to black when the user clicks it; also ensures that
+     * only numbers are accepted using the DecimalFormat
+     */
+    private void initializeFlightTimeFormattedTextField() {
+        DecimalFormat df = new DecimalFormat();
+        NumberFormatter dnff = new NumberFormatter(df);
+        flightTimeFormattedTextField.setFormatterFactory(new DefaultFormatterFactory(dnff));
+        flightTimeFormattedTextField.setValue(0);
         flightTimeFormattedTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -342,39 +310,139 @@ public class AddComponentWindow extends JFrame {
     }
 
     /**
+     * Initializes the name text field
+     *
+     * @spec.effects sets the prompt text in the field to say "Component name" and be greyed out;
+     * also clears the field and makes the field's text change color to black when the user clicks it
+     */
+    private void initializeNameTextField() {
+        nameTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                if (nameTextField.getText().equals("Component name")) {
+                    nameTextField.setText("");
+                    nameTextField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if (nameTextField.getText().isEmpty()) {
+                    nameTextField.setForeground(new Color(187, 187, 187));
+                    nameTextField.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
+                    nameTextField.setText("Component name");
+                }
+            }
+        });
+    }
+
+    /**
+     * Initializes the description text area
+     *
+     * @spec.effects sets the prompt text in the area to say "Component description" and be greyed out;
+     * also clears the area and makes the area's text change color to black when the user clicks it
+     */
+    private void initializeDescriptionTextArea() {
+        descriptionTextArea.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                if (descriptionTextArea.getText().equals("Component description")) {
+                    descriptionTextArea.setText("");
+                    descriptionTextArea.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if (descriptionTextArea.getText().isEmpty()) {
+                    descriptionTextArea.setForeground(new Color(187, 187, 187));
+                    descriptionTextArea.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
+                    descriptionTextArea.setText("Component description");
+                }
+            }
+        });
+        descriptionTextArea.setBorder(new JTextField().getBorder());
+    }
+
+    /**
+     * Initializes the history text area
+     *
+     * @spec.effects sets the prompt text in the area to say "Component history" and be greyed out;
+     * also clears the area and makes the area's text change color to black when the user clicks it
+     */
+    private void initializeHistoryTextArea() {
+        historyTextArea.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                if (historyTextArea.getText().equals("Component history")) {
+                    historyTextArea.setText("");
+                    historyTextArea.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if (historyTextArea.getText().isEmpty()) {
+                    historyTextArea.setForeground(new Color(187, 187, 187));
+                    historyTextArea.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
+                    historyTextArea.setText("Component history");
+                }
+            }
+        });
+        historyTextArea.setBorder(new JTextField().getBorder());
+    }
+
+    /**
      * Initializes the buttons on the frame
      *
-     * @spec.effects adds action listeners to each button to add component and cancel
+     * @spec.effects adds action listeners to each button on the window
      */
     private void initializeButtons() {
+        initializeAddButton();
+        initializeCancelButton();
+    }
+
+    /**
+     * Initializes the add button
+     *
+     * @spec.effects sets action listener for add button to show dialog if input is invalid, or add component,
+     * update the tracker table and close if input is valid
+     */
+    private void initializeAddButton() {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println(flightTimeFormattedTextField.getText());
                 Class flightTimeClass = flightTimeFormattedTextField.getValue().getClass();
                 if (nameTextField.getText().isEmpty() || nameTextField.getText().equals("Component name")) {
                     JOptionPane.showMessageDialog(null, "Name cannot be empty.");
-                } else if (flightTimeFormattedTextField.getValue() == null) {
+                } else if (flightTimeFormattedTextField.getValue() == null) { // not a number
                     JOptionPane.showMessageDialog(null, "Flight time format is invalid.\n" +
                             "Please enter a number.");
-                } else if (flightTimeClass.equals(Integer.class) && (Integer) flightTimeFormattedTextField.getValue() < 0) {
+                } else if (flightTimeClass.equals(Integer.class) &&
+                        (Integer) flightTimeFormattedTextField.getValue() < 0) { // integer less than 0
                     JOptionPane.showMessageDialog(null, "Flight time cannot be less than 0.");
-                } else if (flightTimeClass.equals(Double.class) && (Double) flightTimeFormattedTextField.getValue() < 0) {
+                } else if (flightTimeClass.equals(Double.class) &&
+                        (Double) flightTimeFormattedTextField.getValue() < 0) { // double less than 0
                     JOptionPane.showMessageDialog(null, "Flight time cannot be less than 0.");
-                } else if (flightTimeClass.equals(Long.class) && (Long) flightTimeFormattedTextField.getValue() < 0) {
+                } else if (flightTimeClass.equals(Long.class) &&
+                        (Long) flightTimeFormattedTextField.getValue() < 0) { // long less than 0
                     JOptionPane.showMessageDialog(null, "Flight time cannot be less than 0.");
-                } else {
+                } else { // all inputs are valid
                     String compName = nameTextField.getText();
+
                     String compDescription = descriptionTextArea.getText();
                     if (compDescription.equals("Component description")) {
                         compDescription = "";
                     }
+
                     String compSerialNumber = serialNumberTextField.getText();
                     if (compSerialNumber.equals("Component serial number")) {
                         compSerialNumber = "";
                     }
+
                     LocalDate compStartDate = startDateChooser.getDate().toInstant().
                             atZone(ZoneId.systemDefault()).toLocalDate();
+
                     double compFlightTime;
                     if (flightTimeClass.equals(Integer.class)) {
                         compFlightTime = (Integer) flightTimeFormattedTextField.getValue();
@@ -383,30 +451,44 @@ public class AddComponentWindow extends JFrame {
                     } else {
                         compFlightTime = (Long) flightTimeFormattedTextField.getValue();
                     }
+
                     String compLocation = locationTextField.getText();
                     if (compLocation.equals("Component location")) {
                         compLocation = "";
                     }
+
                     String compHistory = historyTextArea.getText();
                     if (compHistory.equals("Component history")) {
                         compHistory.equals("");
                     }
+
                     boolean compDamaged = damagedCheckBox.isSelected();
                     boolean compActive = activeCheckBox.isSelected();
+
                     String compSystem = systemComboBox.getSelectedItem().toString();
                     if (compSystem.equals("--Unconnected--")) {
                         compSystem = "";
                     }
+
                     equipage.insertComponent(new Component(compName, compDescription,
                             compSerialNumber, compStartDate, compFlightTime, compLocation,
                             compHistory, compDamaged, compActive, compSystem));
                     tracker.initializeComponentsTable();
+
                     setVisible(false);
                     dispose();
                 }
             }
         });
+    }
 
+    /**
+     * Initializes the cancel button
+     *
+     * @spec.effects sets action listener for cancel button to show confirmation dialog and close if
+     * response is yes
+     */
+    private void initializeCancelButton() {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

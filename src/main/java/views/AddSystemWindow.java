@@ -123,14 +123,30 @@ public class AddSystemWindow extends JFrame {
     /**
      * Initializes the components that take user input (text fields/areas, combo boxes)
      *
-     * @spec.effects sets tooltip text on text fields and makes wingtype combo box display
-     * wingtypes from enum
+     * @spec.effects sets default values and prompt text for appropriate input components
      */
     private void initializeInputComponents() {
-        // set combo box to display wingtypes from Wingtype enum
-        wingtypeComboBox.setModel(new DefaultComboBoxModel(Wingtype.values()));
+        initializeWingtypeComboBox();
+        initializeNameTextField();
+        initializeDescriptionTextArea();
+    }
 
-        // set prompt text in name text field to say "System name"
+    /**
+     * Initializes the wingtype combo box
+     *
+     * @spec.effects sets the combo box to display types from Wingtype enum
+     */
+    private void initializeWingtypeComboBox() {
+        wingtypeComboBox.setModel(new DefaultComboBoxModel(Wingtype.values()));
+    }
+
+    /**
+     * Initializes the name text field
+     *
+     * @spec.effects sets the prompt text in the field to say "System name" and be greyed out;
+     * also clears the field and makes the field's text change color to black when the user clicks it
+     */
+    private void initializeNameTextField() {
         nameTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -149,9 +165,15 @@ public class AddSystemWindow extends JFrame {
                 }
             }
         });
+    }
 
-        // set prompt text in description text area to say "System description" and set the border of the text area
-        // to look like the border of a text field
+    /**
+     * Initializes the description text area
+     *
+     * @spec.effects sets the prompt text in the text area to say "System description" and be greyed
+     * out; also clears the area and makes the area's text change color to black when the user clicks it
+     */
+    private void initializeDescriptionTextArea() {
         descriptionTextArea.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -175,9 +197,20 @@ public class AddSystemWindow extends JFrame {
     /**
      * Initializes the buttons on the frame
      *
-     * @spec.effects adds action listeners to each button to add system and cancel
+     * @spec.effects adds action listeners to each button on the window
      */
     private void initializeButtons() {
+        initializeAddButton();
+        initializeCancelButton();
+    }
+
+    /**
+     * Initializes the add button
+     *
+     * @spec.effects sets action listener for add button to show dialog if input is invalid, or add system,
+     * update the tracker table and close if input is valid
+     */
+    private void initializeAddButton() {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -202,7 +235,15 @@ public class AddSystemWindow extends JFrame {
                 }
             }
         });
+    }
 
+    /**
+     * Initializes the cancel button
+     *
+     * @spec.effects sets action listener for cancel button to show confirmation dialog and close if
+     * response is yes
+     */
+    private void initializeCancelButton() {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
