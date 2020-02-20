@@ -5,12 +5,12 @@ import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import javax.swing.*;
 
 /**
  * <b>AddSystemWindow</b> is the frame that allows the user to add new systems to be stored

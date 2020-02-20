@@ -6,8 +6,7 @@ import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Component;
 
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;

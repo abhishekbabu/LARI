@@ -5,10 +5,10 @@ import src.main.java.Equipage;
 import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * <b>Tracker</b> is the root window of LARI i.e. the startup window. It houses two tables containing the Systems and
