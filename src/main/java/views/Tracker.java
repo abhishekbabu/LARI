@@ -103,6 +103,11 @@ public class Tracker extends JFrame {
      */
     private Equipage equipage;
 
+    /**
+     * Property that sets whether or not a new window can be opened from the Tracker
+     */
+    private boolean canOpenNewWindow;
+
     //endregion
 
     //region Constructors
@@ -116,6 +121,7 @@ public class Tracker extends JFrame {
     public Tracker(Equipage equipage) {
         this.tracker = this;
         this.equipage = equipage;
+        toggleCanOpenNewWindow();
         initializeFrame();
         initializeSystemsTable();
         initializeComponentsTable();
@@ -164,8 +170,14 @@ public class Tracker extends JFrame {
         addSystemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddSystemWindow addNewSys = new AddSystemWindow(equipage, tracker);
-                addNewSys.setVisible(true);
+                if (canOpenNewWindow) {
+                    AddSystemWindow addNewSys = new AddSystemWindow(equipage, tracker);
+                    addNewSys.setVisible(true);
+                    toggleCanOpenNewWindow();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please close or save changes in " +
+                            "any other open windows first.");
+                }
             }
         });
     }
@@ -201,8 +213,14 @@ public class Tracker extends JFrame {
         addComponentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddComponentWindow addNewComp = new AddComponentWindow(equipage, tracker);
-                addNewComp.setVisible(true);
+                if (canOpenNewWindow) {
+                    AddComponentWindow addNewComp = new AddComponentWindow(equipage, tracker);
+                    addNewComp.setVisible(true);
+                    toggleCanOpenNewWindow();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please close or save changes in " +
+                            "any other open windows first.");
+                }
             }
         });
     }
@@ -329,6 +347,15 @@ public class Tracker extends JFrame {
 
         // set table header font to Helvetica Neue
         componentsTable.getTableHeader().setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
+    }
+
+    /**
+     * Toggles the property that allows new windows to be opened
+     *
+     * @spec.effects if false, toggle to true and vice-versa
+     */
+    public void toggleCanOpenNewWindow() {
+        canOpenNewWindow = !canOpenNewWindow;
     }
 
     //endregion

@@ -186,6 +186,15 @@ public class AddComponentWindow extends JFrame {
         setTitle("Add New Component");
         setSize(1000,  450);
         setResizable(false);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                tracker.toggleCanOpenNewWindow();
+                setVisible(false);
+                dispose();
+            }
+        });
     }
 
 
@@ -474,6 +483,7 @@ public class AddComponentWindow extends JFrame {
                             compHistory, compDamaged, compActive, compSystem));
                     tracker.initializeComponentsTable();
 
+                    tracker.toggleCanOpenNewWindow();
                     setVisible(false);
                     dispose();
                 }
@@ -494,6 +504,7 @@ public class AddComponentWindow extends JFrame {
                 int response = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to close the window?\nYour data will be lost.");
                 if (response == JOptionPane.YES_OPTION) {
+                    tracker.toggleCanOpenNewWindow();
                     setVisible(false);
                     dispose();
                 }

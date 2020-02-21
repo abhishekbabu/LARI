@@ -118,6 +118,15 @@ public class AddSystemWindow extends JFrame {
         setTitle("Add New System");
         setSize(600, 400);
         setResizable(false);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                tracker.toggleCanOpenNewWindow();
+                setVisible(false);
+                dispose();
+            }
+        });
     }
 
     /**
@@ -229,6 +238,8 @@ public class AddSystemWindow extends JFrame {
                     } else {
                         equipage.insertSystem(newSys);
                         tracker.initializeSystemsTable();
+
+                        tracker.toggleCanOpenNewWindow();
                         setVisible(false);
                         dispose();
                     }
@@ -250,6 +261,7 @@ public class AddSystemWindow extends JFrame {
                 int response = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to close the window?\nYour data will be lost.");
                 if (response == JOptionPane.YES_OPTION) {
+                    tracker.toggleCanOpenNewWindow();
                     setVisible(false);
                     dispose();
                 }
