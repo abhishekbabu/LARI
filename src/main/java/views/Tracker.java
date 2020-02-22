@@ -159,6 +159,7 @@ public class Tracker extends JFrame {
         initializeAddSystemButton();
         initializeEditSystemButton();
         initializeAddComponentButton();
+        initializeDeleteSystemButton();
     }
 
     /**
@@ -220,6 +221,31 @@ public class Tracker extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Please close or save changes in " +
                             "any other open windows first.");
+                }
+            }
+        });
+    }
+
+    /**
+     * Initializes delete system button
+     *
+     * @spec.effects sets action listener for delete system button to delete system from list
+     */
+    private void initializeDeleteSystemButton() {
+        deleteSystemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (!systemsTable.getSelectionModel().isSelectionEmpty()) {
+                    int column = 0;
+                    int row = systemsTable.getSelectedRow();
+                    String value = systemsTable.getModel().getValueAt(row, column).toString();
+                    equipage.deleteSystem(value);
+                    tracker.initializeSystemsTable();
+                    JOptionPane.showMessageDialog(null, "You have successfully deleted "
+                            + value);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select a system to " +
+                            "delete");
                 }
             }
         });
