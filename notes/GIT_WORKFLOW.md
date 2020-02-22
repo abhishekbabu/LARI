@@ -5,7 +5,21 @@ This tutorial/walkthrough will help with understanding the workflow when working
 Since we have recently changed our workstation to IntelliJ, there is a built-in functionality that allows you to execute git commands using the IDE. The 2 different approaches are described below:
 ## Approach 1 - Using Intellij's Git Version Control Systems
 
-<h3></h3>
+<h3>Create a feature branch, switching between branches</h3>
+<ol>
+    <li>Once you have your development environment set up and are ready to implement your codes, open up your IntelliJ IDE and go to "VCS -> Git -> Branches".</li>
+    <li>If you have not created or plan on creating a new branch, click on the "New Branch" and type in whatever name you feel comfortable working on for the branch. For simplicity's sake, check the "Checkout branch" box so that it directly switches your branch from <code>master</code> to <code>your_new_branch</code>.</li>
+    <li>To verify you're on the correct branch, look at the bottom right of the IntelliJ window. There is a status for <code>Git</code> showing which branch you are currently at.</li>
+    <li>To switch from one branch to another, go to "VCS -> Git -> Branches", and select whichever branch you want to work on from the <code>Local Branches</code>.</li>
+    <li>There is also a built-in terminal in IntelliJ, the steps are described in "Approach 2 - Using the Terminal" - Create a feature branch.</li>
+</ol>
+
+Make sure you are always developing in your own branch so that everyone's codes don't get messed up before everything get reviewed.
+
+<h3>Working in feature branch</h3>
+<ol>
+    <li>Before you make any changes to the code, always make sure your code is up-to-date with the <code>master</code> branch. Firstly, do a <code>git pull</code> </li> 
+</ol>
 
 ## Approach 2 - Using the Terminal
 
