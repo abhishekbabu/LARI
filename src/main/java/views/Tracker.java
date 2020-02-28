@@ -33,6 +33,8 @@ public class Tracker extends JFrame {
      */
     private JPanel systemsPanel;
 
+    private JPanel test;
+
     /**
      * The JPanel that houses the components data
      */
