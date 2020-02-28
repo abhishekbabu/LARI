@@ -14,11 +14,12 @@ Since we have recently changed our workstation to IntelliJ, there is a built-in 
     <li>There is also a built-in terminal in IntelliJ, the steps are described in "Approach 2 - Using the Terminal" - Create a feature branch.</li>
 </ol>
 
-Make sure you are always developing in your own branch so that everyone's codes don't get messed up before everything get reviewed.
+Make sure you are always developing in your own branch so that everyone's codes don't get messed up before you have your codes being reviewed.
 
 <h3>Working in feature branch</h3>
 <ol>
-    <li>Before you make any changes to the code, always make sure your code is up-to-date with the <code>master</code> branch. Firstly, do a <code>git pull</code> </li> 
+    <li>Before you make any changes to the code, always make sure your code is up-to-date with the <code>master</code> branch. Firstly, do a <code>git pull</code> </li>
+    <li></li> 
 </ol>
 
 ## Approach 2 - Using the Terminal
@@ -72,7 +73,7 @@ Make sure you are always developing in your own branch so that everyone's codes 
 </ol>
 
 <h3>Working in the feature branch</h3>
-<p>Great! Now you have your feature branch and we can all see it. Now, make commit and push often to your branch. That way if you break anything, you can get back to a good, working verison of your feature.
+<p>Great! Now you have your feature branch and we can all see it. Now, make commit and push often to your branch. That way if you break anything, you can get back to a good, working version of your feature.
 <b>Always pull before working on stuff. This will make your life easier.</b>
  <code>git pull</code>
 
@@ -101,14 +102,14 @@ Make sure you are always developing in your own branch so that everyone's codes 
     <li>If you need to update the team about your feature, do so now as it's is part of the production code.</li>
 </ol>
 
-<h3> When Playing With Git [WARNING]</h3>
+<h2> When Playing With Git [WARNING]</h2>
 <p>There should NEVER be a time when you are trying to switch from your current branch to the master branch and try to do a merging yourself.
 <ol>
     <li>If you find yourself to be in the master branch (say you did <code>git checkout master</code> at any point), what you should NEVER do is to perform a <code>git merge {yourBranch}</code>.</li>
 </ol>
 </p>
 
-<h3>Summary</h3>
+<h2>Summary</h2>
 <p>You now should be able to work in your feature branches and complete user stories as needed. Final words:
 <ul>
     <li>Commit early and often! It is a terrible feeling to lose progress on your code because you unintentionally introduced a bug. Commiting a bunch allows you to get back to a working state of your code or track where the bug was introduced.</li>
