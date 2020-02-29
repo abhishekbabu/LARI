@@ -61,7 +61,7 @@ public class AddComponentWindow extends JFrame {
     /**
      * Combo box for system
      */
-    private JComboBox systemComboBox;
+    protected JComboBox systemComboBox;
 
     /**
      * The start date label
@@ -86,32 +86,32 @@ public class AddComponentWindow extends JFrame {
     /**
      * Text field for name
      */
-    private JTextField nameTextField;
+    protected JTextField nameTextField;
 
     /**
      * Text area for description
      */
-    private JTextArea descriptionTextArea;
+    protected JTextArea descriptionTextArea;
 
     /**
      * Text field for serial number
      */
-    private JTextField serialNumberTextField;
+    protected JTextField serialNumberTextField;
 
     /**
      * Text field for location
      */
-    private JTextField locationTextField;
+    protected JTextField locationTextField;
 
     /**
      * Text field for history
      */
-    private JTextArea historyTextArea;
+    protected JTextArea historyTextArea;
 
     /**
      * Check box for whether the component is damaged
      */
-    private JCheckBox damagedCheckBox;
+    protected JCheckBox damagedCheckBox;
 
     /**
      * The active label
@@ -121,7 +121,7 @@ public class AddComponentWindow extends JFrame {
     /**
      * Check box for whether the component is active
      */
-    private JCheckBox activeCheckBox;
+    protected JCheckBox activeCheckBox;
 
     /**
      * Date chooser for start date
@@ -136,7 +136,7 @@ public class AddComponentWindow extends JFrame {
     /**
      * Formatted text field for flight time
      */
-    private JFormattedTextField flightTimeFormattedTextField;
+    protected JFormattedTextField flightTimeFormattedTextField;
 
     /**
      * The cancel button
@@ -146,7 +146,7 @@ public class AddComponentWindow extends JFrame {
     /**
      * The add component button
      */
-    private JButton addButton;
+    protected JButton addButton;
 
     /**
      * The hours label
@@ -467,7 +467,7 @@ public class AddComponentWindow extends JFrame {
 
                     String compHistory = historyTextArea.getText();
                     if (compHistory.equals("Component history")) {
-                        compHistory.equals("");
+                        compHistory = "";
                     }
 
                     boolean compDamaged = damagedCheckBox.isSelected();

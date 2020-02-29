@@ -159,6 +159,7 @@ public class Tracker extends JFrame {
         initializeAddSystemButton();
         initializeEditSystemButton();
         initializeAddComponentButton();
+        initializeEditComponentButton();
     }
 
     /**
@@ -220,6 +221,29 @@ public class Tracker extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Please close or save changes in " +
                             "any other open windows first.");
+                }
+            }
+        });
+    }
+
+    /**
+     * Initializes edit component button
+     *
+     * @spec.effects sets action listener for edit component button to open new edit component window
+     * with settings from the component that is being edited
+     */
+    private void initializeEditComponentButton() {
+        editComponentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (componentsTable.getSelectionModel().isSelectionEmpty()) {
+                    System.out.println("No component selected");
+                } else {
+                    int row = componentsTable.getSelectedRow();
+                    String compID = componentsTable.getModel().getValueAt(row, 0).toString();
+                    String sysName = componentsTable.getValueAt(row, 9).toString();
+                    EditComponentWindow editComp = new EditComponentWindow(equipage, tracker, sysName, compID);
+                    editComp.setVisible(true);
                 }
             }
         });

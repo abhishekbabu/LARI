@@ -8,6 +8,7 @@
     <properties/>
     <border type="line" title="Add Component">
       <font size="18"/>
+      <color color="-16777216"/>
     </border>
     <children>
       <vspacer id="c8b19">
@@ -116,6 +117,7 @@
           <margin top="2" left="6" bottom="2" right="6"/>
           <selectedTextColor color="-1"/>
           <text value="Component description"/>
+          <wrapStyleWord value="true"/>
         </properties>
       </component>
       <component id="990c8" class="javax.swing.JTextField" binding="serialNumberTextField">
