@@ -153,7 +153,7 @@ public class Tracker extends JFrame {
         tabs = new JTabbedPane();
         add(tabs);
         tabs.add("Component Tracker", rootPanel);
-        tabs.add("Checklist", new Checklist().getRootPanel());
+        tabs.add("Checklist", new Checklist(equipage).getRootPanel());
 
         // set the title and startup size of app window
         setTitle("LARI - Laboratory Reconciliation and Information System");
