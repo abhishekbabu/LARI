@@ -27,9 +27,9 @@ public class Tracker extends JFrame {
     private Tracker tracker;
 
     /**
-     * The tabbed pane that holds the root panel for tracker
+     * The tabbed pane that holds the tabs for Tracker and Checklist
      */
-    private JTabbedPane compTrackerTab;
+    private JTabbedPane tabs;
 
     /**
      * The root JPanel that holds all items in the tracker
@@ -150,9 +150,10 @@ public class Tracker extends JFrame {
         // split the root panel into two horizontal sections for Systems and Components
         // and add it to the frame
         rootPanel.setLayout(new GridLayout(2, 1));
-        compTrackerTab = new JTabbedPane();
-        add(compTrackerTab);
-        compTrackerTab.add("Component Tracker", rootPanel);
+        tabs = new JTabbedPane();
+        add(tabs);
+        tabs.add("Component Tracker", rootPanel);
+        tabs.add("Checklist", new Checklist().getRootPanel());
 
         // set the title and startup size of app window
         setTitle("LARI - Laboratory Reconciliation and Information System");
