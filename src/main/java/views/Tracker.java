@@ -6,9 +6,12 @@ import src.main.java.datatypes.AFSLSystem;
 import src.main.java.datatypes.Wingtype;
 
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * <b>Tracker</b> is the root window of LARI i.e. the startup window. It houses two tables containing the Systems and
@@ -22,6 +25,11 @@ public class Tracker extends JFrame {
      * Reference to this instance of the tracker
      */
     private Tracker tracker;
+
+    /**
+     * The tabbed pane that holds the root panel for tracker
+     */
+    private JTabbedPane compTrackerTab;
 
     /**
      * The root JPanel that holds all items in the tracker
@@ -142,7 +150,9 @@ public class Tracker extends JFrame {
         // split the root panel into two horizontal sections for Systems and Components
         // and add it to the frame
         rootPanel.setLayout(new GridLayout(2, 1));
-        add(rootPanel);
+        compTrackerTab = new JTabbedPane();
+        add(compTrackerTab);
+        compTrackerTab.add("Component Tracker", rootPanel);
 
         // set the title and startup size of app window
         setTitle("LARI - Laboratory Reconciliation and Information System");
