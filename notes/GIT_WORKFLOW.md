@@ -18,8 +18,9 @@ Make sure you are always developing in your own branch so that everyone's codes 
 
 <h3>Working in feature branch</h3>
 <ol>
-    <li>Before you make any changes to the code, always make sure your code is up-to-date with the <code>master</code> branch. Firstly, do a <code>git pull</code> </li>
-    <li>Do something</li> 
+    <li>Before you make any changes to the code, always make sure your code is up-to-date with the <code>master</code> branch. Firstly, click the BLUE arrow besides "Git: " on the top right corner of the IDE, choose "branch default" and click "OK" to update your branch to match the latest version on the master.</li>
+    <li>When you make any updates on your git repo, click on the GREEN arrow besides the BLUE arrow to commit your work. When the "commit" window pops up, type in a message specifying what this "commit" is about so that other developers understand the changes you have made, or at least a rough idea of what you've done. The message should be clear and concice.</li>
+    <li>We always want someone to review our codes before we integrate our codes into the master branch. Once you think your codes are ready to be reviewed and you've committed your codes, create a pull request by going to "VCS -> Git -> Create pull request". By doing this, you are waiting for a review and eventually have your pull request being merged into the master branch and let everyone else have it.</li>
 </ol>
 
 ## Approach 2 - Using the Terminal
