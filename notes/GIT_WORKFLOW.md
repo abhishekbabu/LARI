@@ -19,7 +19,7 @@ Make sure you are always developing in your own branch so that everyone's codes 
 <h3>Working in feature branch</h3>
 <ol>
     <li>Before you make any changes to the code, always make sure your code is up-to-date with the <code>master</code> branch. Firstly, do a <code>git pull</code> </li>
-    <li></li> 
+    <li>Do something</li> 
 </ol>
 
 ## Approach 2 - Using the Terminal
