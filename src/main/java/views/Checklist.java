@@ -19,6 +19,7 @@ public class Checklist {
     private JButton deleteButton;
     private JScrollPane checklistScrollPane;
     private JTable checklistTable;
+    private JLabel systemLabel;
     private Equipage equipage;
 
     public Checklist(Equipage equipage) {
