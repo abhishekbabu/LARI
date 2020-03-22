@@ -77,6 +77,11 @@ public class Tracker extends JFrame {
     private JButton addComponentButton;
 
     /**
+     * The add checklist button
+     */
+    private JButton addChecklistButton;
+
+    /**
      * The edit component button
      */
     private JButton editComponentButton;
@@ -170,6 +175,7 @@ public class Tracker extends JFrame {
         initializeAddSystemButton();
         initializeEditSystemButton();
         initializeAddComponentButton();
+        initializeAddChecklistButton();
     }
 
     /**
@@ -227,6 +233,27 @@ public class Tracker extends JFrame {
                 if (canOpenNewWindow) {
                     AddComponentWindow addNewComp = new AddComponentWindow(equipage, tracker);
                     addNewComp.setVisible(true);
+                    toggleCanOpenNewWindow();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please close or save changes in " +
+                            "any other open windows first.");
+                }
+            }
+        });
+    }
+
+    /**
+     * Initializes add checklist button
+     *
+     * @spec.effects sets action listener for add checklist button to open new add checklist window
+     */
+    private void initializeAddChecklistButton() {
+        addChecklistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (canOpenNewWindow) {
+                    AddChecklistWindow addNewChecklist = new AddChecklistWindow(equipage, tracker);
+                    addNewChecklist.setVisible(true);
                     toggleCanOpenNewWindow();
                 } else {
                     JOptionPane.showMessageDialog(null, "Please close or save changes in " +
